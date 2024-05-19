@@ -1,0 +1,77 @@
+{
+    "ts1": [
+        "Normality_1",
+        "MGAB"
+    ],
+    "ts2": [
+        "Normality_2",
+        "SVDB",
+        "Dodgers"
+    ],
+    "ts3": [
+        "Normality_2",
+        "SMD",
+        "Dodgers"
+    ],
+    "ts4": [
+        "Normality_1",
+        "Daphnet"
+    ],
+    "ts5": [
+        "Normality_1",
+        "NAB"
+    ],
+    "ts6": [
+        "Normality_2",
+        "KDD21",
+        "GHL"
+    ],
+    "ts7": [
+        "Normality_3",
+        "MITDB",
+        "IOPS",
+        "Occupancy"
+    ],
+    "ts8": [
+        "Normality_1",
+        "ECG"
+    ],
+    "ts9": [
+        "Normality_1",
+        "NASA-MSL"
+    ],
+    "ts10": [
+        "Normality_2",
+        "Occupancy",
+        "NAB"
+    ],
+    "ts11": [
+        "Normality_3",
+        "SVDB",
+        "IOPS",
+        "Occupancy"
+    ],
+    "ts12": [
+        "Normality_3",
+        "Genesis",
+        "IOPS",
+        "SensorScope"
+    ],
+    "ts13": [
+        "Normality_3",
+        "Occupancy",
+        "Dodgers",
+        "SensorScope"
+    ],
+    "ts14": [
+        "Normality_2",
+        "GHL",
+        "SMD"
+    ],
+    "ts15": [
+        "Normality_3",
+        "SVDB",
+        "ECG",
+        "SensorScope"
+    ]
+}
