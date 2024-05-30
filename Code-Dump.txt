@@ -1,0 +1,128 @@
+def create_files_and_new_dict(predefined_shuffled_dict, base_folder):
+    new_dict = {}
+    id_counter = 1
+
+    for key, value in predefined_shuffled_dict.items():
+        new_filename = f"ts{id_counter}"
+        new_filepath = os.path.join(base_folder, new_filename)
+        
+        if value[0] == "Normality_1":
+            subfolder = value[1]
+            original_filepath = os.path.join(base_folder, subfolder, key)
+            with open(original_filepath, 'r') as original_file:
+                content = original_file.read()
+            with open(new_filepath, 'w') as new_file:
+                new_file.write(content)
+        
+        elif value[0] == "Normality_2":
+            subfolder1, subfolder2 = value[1], value[2]
+            file1, file2 = key.split('+')
+            filepath1 = os.path.join(base_folder, subfolder1, file1)
+            filepath2 = os.path.join(base_folder, subfolder2, file2)
+            with open(filepath1, 'r') as f1, open(filepath2, 'r') as f2:
+                content = f1.read() + f2.read()
+            with open(new_filepath, 'w') as new_file:
+                new_file.write(content)
+        
+        elif value[0] == "Normality_3":
+            subfolder1, subfolder2, subfolder3 = value[1], value[2], value[3]
+            file1, file2, file3 = key.split('+')
+            filepath1 = os.path.join(base_folder, subfolder1, file1)
+            filepath2 = os.path.join(base_folder, subfolder2, file2)
+            filepath3 = os.path.join(base_folder, subfolder3, file3)
+            with open(filepath1, 'r') as f1, open(filepath2, 'r') as f2, open(filepath3, 'r') as f3:
+                content = f1.read() + f2.read() + f3.read()
+            with open(new_filepath, 'w') as new_file:
+                new_file.write(content)
+        
+        new_dict[new_filename] = value
+        id_counter += 1
+    
+    return new_dict
+
+
+ts_mean = []
+
+    #positive_mean = np.mean(initial_partition[initial_partition > 0])
+    #negative_mean = np.mean(initial_partition[initial_partition < 0])
+    mean_initial = np.mean(initial_partition)
+
+mean_partition = data_partitions[-1][:-(p+1)]
+            mean_initial = np.mean(mean_partition)
+            #positive_mean = np.mean(mean_partition[mean_partition > 0])
+            #negative_mean = np.mean(mean_partition[mean_partition < 0])
+
+if change_detected and len(current_partition) == change_point + p:
+            data_partitions.append(np.array(current_partition))
+
+            current_partition = []
+
+            change_detected = False
+            change_point_set = False
+
+
+
+#partition_counter = 0
+        """
+        elif partition_counter == partition_limit:
+            data_partitions.append(current_partition)
+            current_partition = []
+            mean_initial = np.mean(data_partitions[-1])  
+            cusum_pos, cusum_neg = 0, 0  
+            change_detected = False
+            partition_counter = 0
+        """
+
+
+#partition_limit = len(data[p_initial:]) * 0.40
+    #partition_counter = 0
+
+
+
+
+    change_point_set = False
+    if not change_point_set:
+                change_point = len(current_partition)
+                change_point_set = True
+
+                        change_point_set = False
+
+
+
+for filename in preprocessed_dict.keys():
+    ts = preprocessed_dict[filename]
+    scores = []
+    previous_scores = None
+    clf = IForest(n_jobs=1, random_state=42)
+
+    for par in range(n):
+        if par == 0:
+            partition = ts['data partitions'][par]
+            slidingWindow = find_length(partition)
+            X_train = Window(window=slidingWindow).convert(partition).to_numpy()
+        else:
+            partition_with_history = np.concatenate((ts['data partitions'][par-1], ts['data partitions'][par]))
+            slidingWindow = find_length(partition_with_history)
+            X_train = Window(window=slidingWindow).convert(partition_with_history).to_numpy()
+        
+        clf.fit(X_train)
+        score = clf.decision_scores_
+
+        score = MinMaxScaler(feature_range=(0, 1)).fit_transform(score.reshape(-1, 1)).ravel()
+        score = np.array([score[0]] * math.ceil((slidingWindow-1)/2) +
+                         list(score) +
+                         [score[-1]] * ((slidingWindow-1)//2))
+
+        if par > 0:
+            previous_partition_length = len(ts['data partitions'][par-1])
+            new_previous_scores = score[:previous_partition_length]
+            mean_previous_scores = (previous_scores + new_previous_scores) / 2
+            scores[-previous_partition_length:] = mean_previous_scores.tolist()
+
+        current_partition_length = len(ts['data partitions'][par])
+        current_scores = score[-current_partition_length:]
+        scores.extend(current_scores)
+
+        previous_scores = current_scores
+    
+    scores = np.array(scores)

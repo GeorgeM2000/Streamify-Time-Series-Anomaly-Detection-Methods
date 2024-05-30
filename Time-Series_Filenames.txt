@@ -1,0 +1,28 @@
+Interesting Time-Series Categories
+
+Easy to Interpret Time-Series
+- Occupancy
+- SensorScope
+- NAB
+- NASA-MSL
+- SMD
+- YAHOO
+
+
+Hard to Interpret Time-Series
+- MITDB (Too large)
+- Daphnet
+- IOPS
+- OPPORTUNITY
+
+
+
+
+
+
+
+
+
+
+
+
